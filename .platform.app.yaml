@@ -1,15 +1,13 @@
-# .platform.app.yaml
 name: app
 type: php:8.2
 web:
   locations:
     "/":
       root: "public"
-      index: "index.php"  # Use a single string instead of an array
-      scripts: true
+      index: "index.php"  # Single index file, no array
       passthru: "/index.php"
       allow: true
-
+      scripts: true
 mounts:
   "/public": "public/"
   "/private": "private/"
