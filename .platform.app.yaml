@@ -7,9 +7,10 @@ build:
 web:
     locations:
         "/":
-            index: index.php  # This specifies the entry point of your application.
-            allow: true
-            passthru: "/index.php"
+            index:
+                - index.php  # Use an array with "index.php" as the value.
+            allow: true       # Optional: Allows public access to this path.
+            passthru: "/index.php"  # Routes non-static requests to index.php.
 
 disk: 2048
 
