@@ -1,13 +1,22 @@
-name: my-php-app
-type: php:7.4
+name: app
+type: php:8.1
 
-dependencies:
-  php:
-    php-redis: '*'
+build:
+    flavor: composer
 
 web:
-  locations:
-    "/":
-      root: "public"
-      index: "index.php"
-      allow: true
+    locations:
+        "/":
+            index: index.php  # This specifies the entry point of your application.
+            allow: true
+            passthru: "/index.php"
+
+disk: 2048
+
+mounts:
+    "/uploads": "shared:files/uploads"
+
+dependencies:
+    php:
+        ext-pdo: "*"
+        ext-mbstring: "*"
