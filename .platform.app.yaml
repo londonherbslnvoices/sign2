@@ -4,13 +4,13 @@ web:
   locations:
     "/":
       root: "public"
-      index: "index.php"  # Single index file, no array
+      index: "index.php"
       passthru: "/index.php"
       allow: true
       scripts: true
 mounts:
-  "/public": "public/"
-  "/private": "private/"
+  "/public": "shared/public"  # Correct path for public directory
+  "/private": "shared/private"  # Correct path for private directory
 runtime:
   extensions:
     - pdo
@@ -30,7 +30,3 @@ dependencies:
     composer/composer: '^2.0'
 relationships:
   database: "mysql:mysql"
-services:
-  mysql:
-    type: mysql:10.4
-    disk: 1024
