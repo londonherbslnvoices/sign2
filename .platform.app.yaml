@@ -5,10 +5,11 @@ web:
   locations:
     "/":
       root: "public"
-      index: ["index.php", "index.html"]  # Fixed: index must be an array
+      index: "index.php"  # Use a single string instead of an array
       scripts: true
       passthru: "/index.php"
       allow: true
+
 mounts:
   "/public": "public/"
   "/private": "private/"
