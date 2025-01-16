@@ -1,47 +1,37 @@
 # .platform.app.yaml
-
-# The name of the application.
 name: app
-
-# The type of application.
-type: php:8.2  # Adjust the PHP version as needed.
-
-# Build and deploy configuration.
-build:
-    flavor: composer
-
-# Web server configuration.
+type: php:8.2
 web:
-    locations:
-        "/":
-            index:
-                - index.php  # Main entry point for your application.
-            passthru: "/index.php"  # Route non-static requests to index.php.
-            scripts: true  # Allow PHP scripts to execute.
-            allow: true  # Public access.
-
-# Disk storage.
-disk: 
-    persistent: true
-
-# Dependencies for your application.
-dependencies:
-    php:
-        ext-pdo: "*"
-        ext-mbstring: "*"
-
-# Mounts (if persistent storage is required).
+  locations:
+    "/":
+      root: "public"
+      index: ["index.php", "index.html"] # Must be an array
+      passthru: "/index.php"
+      scripts: true
+      allow: true
 mounts:
-    "/storage": "shared:files"
-
-# Runtime settings.
+  "/public": "public/"
+  "/private": "private/"
 runtime:
-    extensions:
-        - pdo
-        - mbstring
-
-# Environment variables.
-variables:
-    env:
-        APP_ENV: production
-        APP_DEBUG: 0
+  extensions:
+    - pdo
+    - pdo_mysql
+    - json
+    - mbstring
+    - tokenizer
+    - curl
+    - openssl
+    - fileinfo
+    - dom
+hooks:
+  build: |
+    composer install --no-dev --optimize-autoloader
+relationships:
+  database: "mysql:mysql"
+services:
+  mysql:
+    type: mysql:10.4
+    disk: 1024
+dependencies:
+  php:
+    composer/composer: '^2.0'
