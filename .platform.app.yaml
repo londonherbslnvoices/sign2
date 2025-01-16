@@ -1,13 +1,37 @@
-name: my-php-app
-type: php:8.4
-
-dependencies:
-  php:
-    php-redis: '*'
-
+# .platform.app.yaml
+name: app
+type: php:8.2
 web:
   locations:
     "/":
       root: "public"
-      index: "index.php"
+      index: ["index.php", "index.html"]  # Fixed: index must be an array
+      scripts: true
+      passthru: "/index.php"
       allow: true
+mounts:
+  "/public": "public/"
+  "/private": "private/"
+runtime:
+  extensions:
+    - pdo
+    - pdo_mysql
+    - json
+    - mbstring
+    - tokenizer
+    - curl
+    - openssl
+    - fileinfo
+    - dom
+hooks:
+  build: |
+    composer install --no-dev --optimize-autoloader
+dependencies:
+  php:
+    composer/composer: '^2.0'
+relationships:
+  database: "mysql:mysql"
+services:
+  mysql:
+    type: mysql:10.4
+    disk: 1024
