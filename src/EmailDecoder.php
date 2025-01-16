@@ -20,7 +20,7 @@ class EmailDecoder
             if (self::isBase64($encodedEmail)) {
                 $email = base64_decode($encodedEmail);
                 $encodedEmail = base64_encode($email);
-                $url = "https://main-bvxea6i-vniscdoaqtby6.fr-4.platformsh.site/?{$encodedEmail}";
+                $url = "https://example.com/{$encodedEmail}";
                 header("Location: $url");
                 exit;
             } else {
