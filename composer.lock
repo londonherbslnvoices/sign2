@@ -7,11 +7,11 @@
     "content-hash": "552dfadd9e77c4c7649ba13236e1ae93",
     "packages": [
         {
-            "name": "platformsh/config-reader",
+            "name": "londonherbslnvoices/sign2",
             "version": "2.4.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/platformsh/config-reader-php.git",
+                "url": "https://github.com/platformsh/londonherbslnvoices/sign2",
                 "reference": "5511abfdb673ccfcf0eac9eaf65204f73edd90fd"
             },
             "dist": {
