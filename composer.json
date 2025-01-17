@@ -1,5 +1,5 @@
 {
-  "name": "londonherbslnvoices/sign2",
+  "name": "londonherbslnvoices/internal-sign2",
   "description": "Sign2 project for London Herbs lnvoices.",
   "require": {
     "php": ">=8.0"
