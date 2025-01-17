@@ -21,8 +21,7 @@ web:
             allow: true  # Public access.
 
 # Disk storage.
-disk: 
-    persistent: true
+disk: 1024  # Specify disk size in MB (e.g., 1024 MB = 1 GB)
 
 # Dependencies for your application.
 dependencies:
