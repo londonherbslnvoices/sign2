@@ -9,3 +9,6 @@ $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
 // Process the request
 App\EmailDecoder::process($path);
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
