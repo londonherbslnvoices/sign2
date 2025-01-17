@@ -1,66 +1,42 @@
-# The name of the application. This must match your app name in the platform configuration.
-name: 'sign2'  # Your app name
-type: 'php:7.4'  # You can choose a different PHP version (e.g., php:8.0 or php:7.4)
+# Name of the application
+name: 'sign2'
 
-# Disk space allocation for the app. You can increase this based on your needs.
+# Type of application and runtime
+type: 'php:7.4'  # Change PHP version as needed
+
+# Disk space allocation
 disk: 512
 
-# The web route section - defines how your application handles HTTP requests.
+# Web routing configuration
 web:
-  disk: 512
-  location: '/public'  # Point this to the directory that contains your 'index.php' file.
-
-# Custom Nginx configuration for routing and PHP handling.
-nginx:
   locations:
-    # The root path - serve static files if available, else pass to index.php.
-    '/':
-      root: 'public'  # Point this to where your 'index.php' file is.
-      try_files: ['$uri', '/index.php$is_args$args']
+    "/":
+      root: "public"
+      passthru: "/index.php"
 
-    # PHP handling - pass PHP files to PHP-FPM for processing.
-    '~ \.php$':
-      fastcgi_pass: 'unix:/var/run/php/php7.4-fpm.sock'  # PHP 7.4 FastCGI socket.
-      fastcgi_index: 'index.php'
-      fastcgi_param: 'SCRIPT_FILENAME $document_root$fastcgi_script_name'
-      include: 'fastcgi_params'
+# PHP runtime and dependencies
+runtime:
+  extensions:
+    - pdo_mysql
+    - json
+    - mbstring
 
-    # Favicon.ico handling - catch favicon requests.
-    '/favicon.ico':
-      try_files: ['$uri', '/index.php$is_args$args']
-
-    # Custom route handling (for example, API routes, can be adjusted to fit your app)
-    '/api':
-      proxy_pass: 'http://api_backend'  # If you have an API backend, change this accordingly.
-
-# Error and access logs configuration.
-logs:
-  access: /var/log/nginx/access.log
-  error: /var/log/nginx/error.log
-
-# Additional services (e.g., databases, APIs) can be added here if necessary. This section is optional.
-services:
-  db:
-    type: 'mysql:5.7'  # Example service, adjust depending on your actual database.
-    disk: 512
-    scope: 'project'
-
-# PHP configuration (if needed, place a php.ini file in the `.platform` directory with custom settings).
-# Example settings for file upload and execution time.
-php:
-  ini:
-    upload_max_filesize: '10M'
-    post_max_size: '10M'
-    max_execution_time: '30'
-    max_input_vars: '5000'
-
-# Build steps (if your app requires special build commands).
+# Dependencies
 build:
-  flavor: 'php'  # PHP build flavor.
-  commands:
-    - composer install  # Install PHP dependencies (if you're using Composer).
+  flavor: composer  # Use Composer to manage dependencies
 
-# Deployment steps (optional).
-deploy:
-  commands:
-    - echo "Deployment completed!"  # You can replace this with any necessary deployment steps.
+# Mounts (for persistent files)
+mounts:
+  "/public/uploads": "shared:files/uploads"
+
+# Relationships for external services
+relationships:
+  database: "mysql:db"
+
+# Custom PHP settings (optional)
+variables:
+  php:
+    memory_limit: "128M"
+    upload_max_filesize: "10M"
+    post_max_size: "10M"
+    max_execution_time: "30"
