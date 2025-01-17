@@ -8,24 +8,22 @@ disk: 512
 web:
   locations:
     "/":
-      root: "public"   # Ensure 'public' directory exists and has an 'index.php'
+      root: "public"  # Ensure 'public' directory exists and has an 'index.php'
       index: "index.php"  # Default index page
       passthru: "/index.php"  # Handle all requests through index.php
 
-# You can specify services (like databases) here if needed
-services:
-  db:
-    type: 'mysql:5.7'
-    disk: 512
-    scope: 'project'
-
-# Build instructions if necessary
+# Build instructions if necessary (optional)
 build:
   flavor: 'php'
-  commands:
-    - composer install  # Install dependencies (if using Composer)
 
-# Deployment commands if needed
-deploy:
-  commands:
-    - echo "Deployment complete!"  # Custom deployment steps can be added here
+# If you're not using services (e.g., MySQL or others), remove this section
+# services:
+#   db:
+#     type: 'mysql:5.7'
+#     disk: 512
+#     scope: 'project'
+
+# Deployment commands if needed (optional)
+# deploy:
+#   commands:
+#     - echo "Deployment complete!"
