@@ -17,9 +17,4 @@ hooks:
   build: |
     composer install --no-dev --optimize-autoloader  # Install PHP dependencies.
 
-# Configuration for logging (Optional)
-logs:
-  access: /var/log/nginx/access.log
-  error: /var/log/nginx/error.log
-
 # Error handling or additional custom configurations can be added here (if needed).
