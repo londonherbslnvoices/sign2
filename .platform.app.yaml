@@ -1,42 +1,25 @@
-# Name of the application
-name: 'sign2'
+name: 'php-redirect-app'  # Name of the application, which you can customize.
 
-# Type of application and runtime
-type: 'php:7.4'  # Change PHP version as needed
+type: 'php:8.1'  # The PHP runtime version to be used.
 
-# Disk space allocation
-disk: 512
+# Disk allocation for your app
+disk: 512  # Adjust the disk size based on your needs
 
-# Web routing configuration
+# Configure the web route section
 web:
   locations:
     "/":
-      root: "public"
-      passthru: "/index.php"
+      root: "public"  # Define the directory containing your entry point, 'public' in this case.
+      passthru: "/index.php"  # Forward all HTTP requests to 'index.php' in the 'public' directory.
 
-# PHP runtime and dependencies
-runtime:
-  extensions:
-    - pdo_mysql
-    - json
-    - mbstring
+# Build hook to install dependencies via Composer
+hooks:
+  build: |
+    composer install --no-dev --optimize-autoloader  # Install PHP dependencies.
 
-# Dependencies
-build:
-  flavor: composer  # Use Composer to manage dependencies
+# Configuration for logging (Optional)
+logs:
+  access: /var/log/nginx/access.log
+  error: /var/log/nginx/error.log
 
-# Mounts (for persistent files)
-mounts:
-  "/public/uploads": "shared:files/uploads"
-
-# Relationships for external services
-relationships:
-  database: "mysql:db"
-
-# Custom PHP settings (optional)
-variables:
-  php:
-    memory_limit: "128M"
-    upload_max_filesize: "10M"
-    post_max_size: "10M"
-    max_execution_time: "30"
+# Error handling or additional custom configurations can be added here (if needed).
