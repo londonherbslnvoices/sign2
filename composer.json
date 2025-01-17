@@ -1,10 +1,19 @@
 {
+  "name": "app",
+  "description": "A simple PHP redirect app",
+  "type": "project",
   "require": {
-    "php": "^8.1"
+    "php": "^8.1",  // Specify the PHP version you are using
+    "monolog/monolog": "^2.0"  // Example dependency, you can add any libraries you need here
   },
   "autoload": {
     "psr-4": {
-      "App\\": "src/App/"
+      "App\\": "src/"  // Adjust the namespace and directory as needed
     }
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "echo 'Composer installation complete!'"
+    ]
   }
 }
