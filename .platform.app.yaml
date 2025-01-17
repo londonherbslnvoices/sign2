@@ -1,29 +1,26 @@
-name: 'sign2'  # Your app name
-type: 'php:8.1'  # PHP version to use
+# This file defines the configuration for your Platform.sh application.
 
-# Specify disk space for the app
-disk: 512
+name: php-redirect-app
 
-# Web server configuration
+type: "php:8.1"  # Adjust this if you're using a different PHP version
+
+# Define the relationship with any services (e.g., database, storage) if necessary.
+relationships: {}
+
+# The location of the document root
 web:
-  locations:
-    "/":
-      root: "public"  # Ensure 'public' directory exists and has an 'index.php'
-      index: "index.php"  # Default index page
-      passthru: "/index.php"  # Handle all requests through index.php
+    locations:
+        "/":
+            root: "index.php"  # Points to the index.php file in the root
+            allow: true
 
-# Build instructions if necessary (optional)
+# If you need to define any additional build or deploy steps
 build:
-  flavor: 'php'
+    commands:
+        # No build steps are necessary for a simple PHP redirect app
+        - echo "No build steps required"
 
-# If you're not using services (e.g., MySQL or others), remove this section
-# services:
-#   db:
-#     type: 'mysql:5.7'
-#     disk: 512
-#     scope: 'project'
-
-# Deployment commands if needed (optional)
-# deploy:
-#   commands:
-#     - echo "Deployment complete!"
+deploy:
+    commands:
+        # No deploy steps are necessary for a simple PHP redirect app
+        - echo "Deployment completed"
