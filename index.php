@@ -1,26 +1,18 @@
 <?php
-// Database connection
-if (getenv('PLATFORM_RELATIONSHIPS')) {
-    $relationships = json_decode(base64_decode(getenv('PLATFORM_RELATIONSHIPS')), true);
 
-    if (isset($relationships['database'][0])) {
-        $database = $relationships['database'][0];
-        $dsn = sprintf(
-            'mysql:host=%s;port=%d;dbname=%s',
-            $database['host'],
-            $database['port'],
-            $database['path']
-        );
-        $username = $database['username'];
-        $password = $database['password'];
+use App\EmailDecoder;
 
-        try {
-            $pdo = new PDO($dsn, $username, $password);
-            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch (PDOException $e) {
-            die("Database connection failed: " . $e->getMessage());
-        }
-    }
+require __DIR__ . '/../vendor/autoload.php';
+
+// Extract the path from the URL (excluding the query string)
+$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+// Remove leading slash
+$input = ltrim($path, '/');
+
+// Process the input
+if (!empty($input)) {
+    App\EmailDecoder::process($input);
+} else {
+    echo "No data provided.";
 }
-
-// Continue with application logic
