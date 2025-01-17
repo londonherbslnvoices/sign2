@@ -1,5 +1,8 @@
-vendor/*
+# Ignore Composer files if you're not using Composer
+/vendor/
 
-# Ignore mounts
-web/uploads
-private
+# Ignore Platform.sh environment files
+/.platform/
+
+# Ignore log files
+*.log
