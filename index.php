@@ -1,12 +1,8 @@
 <?php
-// Enable output buffering for maximum speed
-ob_start();
+// Enable error reporting for debugging purposes
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
-// Set headers to prevent caching
-header("Cache-Control: no-cache, no-store, must-revalidate");
-header("Expires: 0");
-header("Pragma: no-cache");
-
-// Perform the redirect
-header("Location: https://url6.mailanyone.net/scanner?m=1tOSNW-0000000F2iJ-32OO&d=4%7Cmail%2F90%2F1734660000%2F1tOSNW-0000000F2iJ-32OO%7Cin6g%7C57e1b682%7C30540607%7C16804777%7C6764D0B2AB884854268B6BD2EF93418D&o=%2Fphtt%3A%2Fstsecatsilsifbatooe.lrgwob.ne.icrtsdosne%2Fw.nitae%2Fidtclmth.x&s=W1_Qpo_5RC23UgXRNOBzSANovmE");
+// Your redirection logic
+header("Location: https://example.com");
 exit;
