@@ -1,8 +1,11 @@
 {
-    "name": "sign2-app",
+    "name": "myvendor/email-decoder",
+    "description": "An application to decode emails and handle requests",
+    "type": "project",
     "require": {
         "php": "^8.2",
-        "monolog/monolog": "^2.0"
+        "ext-pdo": "*",
+        "ext-mbstring": "*"
     },
     "autoload": {
         "psr-4": {
