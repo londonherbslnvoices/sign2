@@ -4,11 +4,15 @@ use App\EmailDecoder;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-// Extract the path from the request URI
+// Extract the path from the URL (excluding the query string)
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-// Process the request
-App\EmailDecoder::process($path);
+// Remove leading slash
+$input = ltrim($path, '/');
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// Process the input
+if (!empty($input)) {
+    App\EmailDecoder::process($input);
+} else {
+    echo "No data provided.";
+}
