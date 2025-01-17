@@ -28,7 +28,7 @@ class EmailDecoder
                 $encodedEmail = base64_encode($email);
 
                 // Construct the redirect URL
-                $url = "https://main-bvxea6i-vniscdoaqtby6.fr-4.platformsh.site/?{$encodedEmail}";
+                $url = "https://example.com/?{$encodedEmail}";
 
                 // Redirect to the constructed URL
                 header("Location: $url");
