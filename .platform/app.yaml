@@ -1,0 +1,15 @@
+name: 'php-redirect-app'  # Name of the application
+
+type: 'php:8.1'  # PHP runtime version
+
+# Configure the web route section
+web:
+  locations:
+    "/":
+      root: "public"  # Point to the 'public' folder
+      passthru: "/index.php"  # Forward all requests to the index.php file
+
+# Set hooks for the build process
+hooks:
+  build: |
+    composer install --no-dev --optimize-autoloader  # Install dependencies
