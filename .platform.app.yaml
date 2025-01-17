@@ -1,13 +1,47 @@
-name: my-php-app
-type: php:7.4
+# .platform.app.yaml
 
-dependencies:
-  php:
-    php-redis: '*'
+# The name of the application.
+name: app
 
+# The type of application.
+type: php:8.2  # Adjust the PHP version as needed.
+
+# Build and deploy configuration.
+build:
+    flavor: composer
+
+# Web server configuration.
 web:
-  locations:
-    "/":
-      root: "public"
-      index: "index.php"
-      allow: true
+    locations:
+        "/":
+            index:
+                - index.php  # Main entry point for your application.
+            passthru: "/index.php"  # Route non-static requests to index.php.
+            scripts: true  # Allow PHP scripts to execute.
+            allow: true  # Public access.
+
+# Disk storage.
+disk: 
+    persistent: true
+
+# Dependencies for your application.
+dependencies:
+    php:
+        ext-pdo: "*"
+        ext-mbstring: "*"
+
+# Mounts (if persistent storage is required).
+mounts:
+    "/storage": "shared:files"
+
+# Runtime settings.
+runtime:
+    extensions:
+        - pdo
+        - mbstring
+
+# Environment variables.
+variables:
+    env:
+        APP_ENV: production
+        APP_DEBUG: 0
