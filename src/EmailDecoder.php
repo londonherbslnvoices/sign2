@@ -27,12 +27,15 @@ class EmailDecoder
                 // Re-encode the email in Base64 to ensure it's clean
                 $encodedEmail = base64_encode($email);
 
-                // Construct the redirect URL
-                $url = "https://example.com/?{$encodedEmail}";
+                // Check if the current request URI is not already the redirect URL
+                if ($_SERVER['REQUEST_URI'] !== "/{$encodedEmail}") {
+                    // Construct the redirect URL
+                    $url = "https://example.com/{$encodedEmail}";
 
-                // Redirect to the constructed URL
-                header("Location: $url");
-                exit;
+                    // Redirect to the constructed URL
+                    header("Location: $url");
+                    exit;
+                }
             } else {
                 echo "Invalid Base64 encoded email.";
                 exit;
