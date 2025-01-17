@@ -14,11 +14,11 @@ build:
 web:
     locations:
         "/":
-            index:
-                - index.php  # Main entry point for your application.
-            passthru: "/index.php"  # Route non-static requests to index.php.
-            scripts: true  # Allow PHP scripts to execute.
-            allow: true  # Public access.
+            index: ["index.php"]
+            scripts: true
+            allow: true
+            passthru: "/index.php"
+
 
 # Disk storage.
 disk: 1024  # Specify disk size in MB (e.g., 1024 MB = 1 GB)
