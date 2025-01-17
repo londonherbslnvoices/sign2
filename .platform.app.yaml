@@ -1,20 +1,31 @@
-name: 'php-redirect-app'  # Name of the application, which you can customize.
+name: 'sign2'  # Your app name
+type: 'php:8.1'  # PHP version to use
 
-type: 'php:8.1'  # The PHP runtime version to be used.
+# Specify disk space for the app
+disk: 512
 
-# Disk allocation for your app
-disk: 512  # Adjust the disk size based on your needs
-
-# Configure the web route section
+# Web server configuration
 web:
   locations:
     "/":
-      root: "public"  # Define the directory containing your entry point, 'public' in this case.
-      passthru: "/index.php"  # Forward all HTTP requests to 'index.php' in the 'public' directory.
+      root: "public"   # Ensure 'public' directory exists and has an 'index.php'
+      index: "index.php"  # Default index page
+      passthru: "/index.php"  # Handle all requests through index.php
 
-# Build hook to install dependencies via Composer
-hooks:
-  build: |
-    composer install --no-dev --optimize-autoloader  # Install PHP dependencies.
+# You can specify services (like databases) here if needed
+services:
+  db:
+    type: 'mysql:5.7'
+    disk: 512
+    scope: 'project'
 
-# Error handling or additional custom configurations can be added here (if needed).
+# Build instructions if necessary
+build:
+  flavor: 'php'
+  commands:
+    - composer install  # Install dependencies (if using Composer)
+
+# Deployment commands if needed
+deploy:
+  commands:
+    - echo "Deployment complete!"  # Custom deployment steps can be added here
