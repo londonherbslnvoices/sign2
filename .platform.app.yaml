@@ -1,46 +1,35 @@
-# .platform.app.yaml
+# Define the app
+name: 'sign2'  # Replace with your app's name
+type: 'php:7.4'  # Or the appropriate PHP version you're using
 
-# The name of the application.
-name: app
-
-# The type of application.
-type: php:8.2  # Adjust the PHP version as needed.
-
-# Build and deploy configuration.
-build:
-    flavor: composer
-
-# Web server configuration.
+# Define the web route
 web:
-    locations:
-        "/":
-            index: ["index.php"]
-            scripts: true
-            allow: true
-            passthru: "/index.php"
+  disk: 512
+  location: '/public'  # Assuming your app's public files are in the 'public' folder
 
+# Custom Nginx configuration
+nginx:
+  # Root location and PHP handling
+  locations:
+    '/':
+      root: 'web'  # Replace with the actual folder where your index.php or public files are
+      try_files: ['$uri', '/index.php$is_args$args']  # Try to serve static files, then pass to PHP
+    '~ \.php$':  # For PHP files
+      fastcgi_pass: 'unix:/var/run/php/php7.4-fpm.sock'  # Adjust if you use a different PHP version
+      fastcgi_index: 'index.php'
+      fastcgi_param: 'SCRIPT_FILENAME $document_root$fastcgi_script_name'
+      include: 'fastcgi_params'  # Ensure the default FastCGI params are included
 
-# Disk storage.
-disk: 1024  # Specify disk size in MB (e.g., 1024 MB = 1 GB)
+  # Handling additional requests (if needed for your app)
+  # You can define additional locations here if necessary, like for /assets or API endpoints
+  locations:
+    '/favicon.ico':  # You can adjust based on your needs
+      try_files: ['$uri', '/index.php$is_args$args']
 
-# Dependencies for your application.
-dependencies:
-    php:
-        ext-pdo: "*"
-        ext-mbstring: "*"
+# Error and access logs
+logs:
+  access: /var/log/nginx/access.log
+  error: /var/log/nginx/error.log
 
-# Mounts (if persistent storage is required).
-mounts:
-    "/storage": "shared:files"
-
-# Runtime settings.
-runtime:
-    extensions:
-        - pdo
-        - mbstring
-
-# Environment variables.
-variables:
-    env:
-        APP_ENV: production
-        APP_DEBUG: 0
+# The application will handle requests via index.php in the web root folder
+# Adjust the paths according to where your index.php or application entry file is located
