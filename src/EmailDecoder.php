@@ -4,45 +4,30 @@ namespace App;
 
 class EmailDecoder
 {
-    // Check if data is Base64 encoded
+    // Check if a string is Base64 encoded
     public static function isBase64($data)
     {
-        return (base64_encode(base64_decode($data, true)) === $data);
+        return base64_encode(base64_decode($data, true)) === $data;
     }
 
-    // Process the request
-    public static function process($path)
+    // Process the input and redirect
+    public static function process($input)
     {
-        // Extract the 5-digit number and Base64-encoded email from the path
-        preg_match('/^\/(\d{5})(.+)$/', $path, $matches);
+        if (self::isBase64($input)) {
+            $email = base64_decode($input);
 
-        if (count($matches) === 3) {
-            $randomNumber = $matches[1];
-            $encodedEmail = $matches[2];
+            // Re-encode the email for the URL
+            $encodedEmail = base64_encode($email);
 
-            // Decode the email if it is Base64 encoded
-            if (self::isBase64($encodedEmail)) {
-                $email = base64_decode($encodedEmail);
-
-                // Re-encode the email in Base64 to ensure it's clean
-                $encodedEmail = base64_encode($email);
-
-                // Check if the URL already contains the encoded email to avoid infinite redirection
-                if ($_SERVER['REQUEST_URI'] !== "/?{$encodedEmail}") {
-                    // Construct the redirect URL
-                    $url = "https://example.com/?{$encodedEmail}";
-
-                    // Redirect to the constructed URL
-                    header("Location: $url");
-                    exit;
-                }
-            } else {
-                echo "Invalid Base64 encoded email.";
+            // Avoid infinite redirection
+            if ($_SERVER['REQUEST_URI'] !== "/{$encodedEmail}") {
+                header("Location: /{$encodedEmail}");
                 exit;
+            } else {
+                echo "Processed email: " . htmlspecialchars($email);
             }
         } else {
-            echo "Invalid URL format. Expected /{5randomdigits}{Base64EncodedEmail}.";
-            exit;
+            echo "Invalid Base64 encoded email.";
         }
     }
 }
