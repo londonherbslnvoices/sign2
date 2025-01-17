@@ -1,5 +1,5 @@
 {
-  "name": "londonherbslnvoices/sign2",  // Correct vendor/package name format
+  "name": "londonherbsinvoices/sign2",  // Correct vendor/package name format
   "description": "PHP redirect application",
   "type": "project",
   "require": {
